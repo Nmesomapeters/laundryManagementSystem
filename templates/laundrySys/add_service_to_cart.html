@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card mx-auto mb-4" style="width: 100%;">
+            <div class="card-body text-center">
+                <img src="https://img.pikbest.com/wp/202347/bright-white-a-sleek-washing-machine-with-personified-mascot-and-abstract-charging-battery-on-background-rendered-in-3d_9772431.jpg!sw800" alt="Services" class="img-fluid mb-3">
+                <h4 class="card-title mb-3"><b>What Services do you Need?</b></h4>
+                <form method="POST" novalidate>
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="service" class="form-label">Choose a Service</label>
+                        {% render_field form.service class="form-control" %}
+                        <div class="invalid-feedback">
+                            Please select a service.
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Add Service to Cart</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% if get_obj %}
+    <div class="col-md-8">
+        <div class="card mx-auto" style="width: 100%;">
+            <div class="card-body">
+                <h5 class="card-title mb-3"><b>Services Added to Cart</b></h5>
+                {% for obj in get_obj %}
+                <div class="alert alert-primary alert-dismissible fade show d-flex justify-content-between align-items-center" role="alert">
+                    <span>{{ obj.service.name }} (Price: {{ obj.service.price }} GHS)</span>
+                    <a href="{% url 'delete-service-from-cart' obj.pk %}" class="btn-close" aria-label="Close"></a>
+                </div>
+                {% endfor %}
+                <hr>
+                <p class="card-text">Total Amount for <span id="total_clothes_text">{{ cart.total_clothes }}</span> cloth(es) with the services above is <b id="total_amount">{{ cart.total_amount }} GHS</b></p>
+                <a href="{% url 'checkout-here' %}" class="btn btn-success w-100">Continue to Check Out</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    
+    function updateTotalAmount() {
+        let totalClothes = parseInt('{{ cart.total_clothes|default_if_none:0 }}');
+        let servicePrices = 0;
+
+
+        ('{% for obj in get_obj %}')
+            servicePrices += parseInt('{{ obj.service.price|default_if_none:0 }}');
+        ('{% endfor %}')
+
+        let totalAmount = totalClothes * servicePrices;
+        document.getElementById('total_amount').innerText = totalAmount.toFixed(2) + ' GHS';
+        document.getElementById('total_clothes_text').innerText = totalClothes;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        updateTotalAmount();
+    });
+</script>
+
+{% endblock content %}

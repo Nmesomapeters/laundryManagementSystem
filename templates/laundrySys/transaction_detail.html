@@ -1,0 +1,25 @@
+<!-- transaction_detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="card mx-auto" style="width: 40rem;">
+        <div class="card-body">
+            <h2 class="card-title">Transaction Successful</h2>
+            <p class="card-text">Thank you for your payment.</p>
+            <p><strong>Transaction ID:</strong> {{ transaction.id }}</p>
+            <p><strong>Full Name:</strong> {{ transaction.full_name }}</p>
+            <p><strong>Email:</strong> {{ transaction.email_id }}</p>
+            <p><strong>Delivery Address:</strong> {{ transaction.delivery_address }}</p>
+            <p><strong>Phone Number:</strong> {{ transaction.phone_number }}</p>
+            <p><strong>Payment Method:</strong> {{ transaction.payment_method }}</p>
+            <p><strong>Total Amount:</strong> ${{ transaction.total_amount }}</p>
+            <p><strong>Date:</strong> {{ transaction.transaction_date }}</p>
+            <a href="{% url 'home' %}" class="btn btn-primary">Back to Home</a>
+            <a href="{% url 'receipt' transaction.id %}" class="btn btn-primary">Generate Receipt</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+            
+            

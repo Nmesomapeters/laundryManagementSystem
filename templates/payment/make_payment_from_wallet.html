@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card mx-auto mb-4" style="width: 100%;">
+            
+            <div class="card-body text-center">
+                <img src="https://i.pinimg.com/236x/27/da/de/27dadec7be270e6093ed0c82a1bc8390.jpg" alt="Payment Confirmation" class="img-fluid mb3">
+                
+                <h5 class="card-title mb-3"><b>Payment Confirmation</b></h5>
+                <p class="card-text">You're about to make a payment of <b>{{ cart.total_amount }} GHS</b> from your wallet.</p>
+                <p class="card-text">Please confirm your payment:
+                    <img src="https://i.pinimg.com/236x/f8/6f/bc/f86fbcc99f7dd79f3275a102fd32c265.jpg" alt="Confirmation" style="width: 50px;">
+                </p>
+                <form method="POST" action="{% url 'pay-for-laundry' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary w-100 mb-2">Confirm Payment</button>
+                    <a href="{% url 'checkout-here' %}" class="btn btn-secondary w-100">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

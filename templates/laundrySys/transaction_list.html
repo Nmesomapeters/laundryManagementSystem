@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-4">Your Transactions</h1>
+    <div class="list-group">
+        {% for transaction in transactions %}
+        <a href="{% url 'transaction_detail' transaction.id %}" class="list-group-item list-group-item-action">
+            Transaction ID: {{ transaction.id }} - Total Amount: {{ transaction.total_amount }} GHS
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

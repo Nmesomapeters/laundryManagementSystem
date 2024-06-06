@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<h2>Heads up! You're about paying {{payment.amount}} GHS into your Wallet</h2>
+<button onclick="payWithPaysatck()" class="btn btn-primary">Fund Wallet</button>
+
+<script>
+    function payWithPaysatck() {
+        let currency = "GHC";
+        let plan = "";
+        let ref = "{{payment.ref}}";
+        let obj = {
+            key: "{{paystack_pub_key}}",
+            email: "{{payment.email}}",
+            amount: "{{amount_value}}",
+            ref:ref,
+            callback:function (response) {
+                window.location.href = "{% url 'verify-payment' payment.ref %}";
+            },
+        };
+        if (Boolean(currency)) {
+            obj.currency = currency.toUpperCase();
+        }
+        if (Boolean(plan)) {
+            obj.plan = plan;
+        }
+        var handler = PaystackPop.setup(obj);
+        handler.openIframe();
+    }
+</script>
+
+
+
+{% endblock content %}

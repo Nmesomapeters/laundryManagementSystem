@@ -1,0 +1,41 @@
+<!-- receipt.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Receipt</title>
+    <style>
+        /* Add styles for printable receipt */
+        body { font-family: Arial, sans-serif; }
+        .receipt-container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; }
+        .receipt-header { text-align: center; margin-bottom: 20px; }
+        .receipt-header h2 { margin: 0; }
+        .receipt-details, .receipt-items { margin-bottom: 20px; }
+        .receipt-footer { text-align: center; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="receipt-container">
+        <div class="receipt-header">
+            <h2>Receipt</h2>
+            <p>Transaction ID: {{ transaction.id }}</p>
+        </div>
+        <div class="receipt-details">
+            <p><strong>Date:</strong> {{ transaction.transaction_date }}</p>
+            <p><strong>Customer:</strong> {{ transaction.user.username }}</p>
+            <p><strong>Delivery Address:</strong> {{ transaction.checkout.delivery_address }}</p>
+        </div>
+        <div class="receipt-items">
+            <h4>Items</h4>
+            <ul>
+                {% for item in transaction_products %}
+                <li>{{ item.product.name }} - {{ item.product.price }} GHS</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="receipt-footer">
+            <p><strong>Total Amount:</strong> {{ transaction.total_amount }} GHS</p>
+            <p>Thank you for your business!</p>
+        </div>
+    </div>
+</body>
+</html>

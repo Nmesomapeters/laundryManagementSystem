@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+    <div class="card mx-auto" style="width: 76rem;">
+        <div class="card-body">
+            <h5 class="card-title mb-3">Manage Jobs</h5>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Customer Name</th>
+                        <th scope="col">Email ID</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">Delivery Address</th>
+                        <th scope="col">Clothes Amount</th>
+                        <th scope="col">Laundry services</th>
+                        <th scope="col">Total Amount</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for o in obj %}
+                    <tr>
+                        <td>{{o.full_name}}</td>
+                        <td>{{o.email_id}}</td>
+                        <td>{{o.phone_number}}</td>
+                        <td>{{o.delivery_address}}</td>
+                        <td>{{o.cart.total_clothes}}</td>
+                        <td>
+                            {% for m in o.cart.servicecart_set.all %}   
+                            {{ m.service }}
+                            {% endfor %}                   
+                        </td>
+                        <td>{{o.cart.total_amount}} GHS</td>
+                        <td><span class="badge bg-warning">Pending</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+</div>
+{% endblock content %}

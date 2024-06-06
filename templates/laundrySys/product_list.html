@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container text-center" >
+    <img src="https://t4.ftcdn.net/jpg/04/19/74/47/360_F_419744778_XfITYF3rvJ4KvGblTIt2oMCZviuwvZBI.jpg"  alt="Products" class="img-fluid mb-4 mx-auto d-block" style="max-width: 300px;">
+    <h1 class="my-4">Our Laundry Products</h1>
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.description }}</p>
+                    <p class="card-text"><small class="text-muted">{{ product.category }}</small></p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
