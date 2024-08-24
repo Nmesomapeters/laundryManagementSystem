@@ -147,13 +147,7 @@ def mark_complete(request, id):
     checkout = get_object_or_404(Checkout, id=id)
     checkout.status = 'Completed'
     checkout.save()
-    return redirect('order_history') 
-
-def mark_delivered(request, id):
-    checkout = get_object_or_404(Checkout, id=id)
-    checkout.status = 'Delivered'
-    checkout.save()
-    return redirect('order_history') 
+    return redirect('order_history')  
 
 def order_history(request):
     orders = Order.objects.all()
