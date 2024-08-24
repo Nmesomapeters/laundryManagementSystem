@@ -150,5 +150,10 @@ def mark_complete(request, id):
     return redirect('order_history')  
 
 def order_history(request):
-    orders = Order.objects.all()
-    return render(request, 'order_history.html', {'orders': orders})
+    # Filter completed orders for both admin and the logged-in user
+    if request.user.is_staff:
+        orders = Order.objects.filter(status__in=['Completed', 'Delivered'])
+    else:
+        orders = Order.objects.filter(customer=request.user, status__in=['Completed', 'Delivered'])
+
+    return render(request, 'laundrySys/order_history.html', {'orders': orders})
