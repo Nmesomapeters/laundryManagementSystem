@@ -156,4 +156,4 @@ def order_history(request):
     else:
         orders = Order.objects.filter(customer=request.user, status__in=['Completed', 'Delivered'])
 
-    return render(request, 'laundrySys/order_history.html', {'orders': orders})
+    return render(request, 'order_history.html', {'orders': orders})
