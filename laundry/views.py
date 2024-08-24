@@ -1,7 +1,7 @@
-from django.shortcuts import  render, redirect
+from django.shortcuts import  render, redirect, get_object_or_404
 from django.contrib import messages
 from .form import AddServiceForm, AddToCartForm, AddServiceToCartForm, CheckoutForm,  ProductForm
-from .models import Cart, ServiceCart, Checkout, Product
+from .models import Cart, ServiceCart, Checkout, Product, Order
 from payment.models import Wallet
 
 def home(request):
@@ -114,7 +114,7 @@ def pay_for_laundry(request):
         return redirect('home')
     else:
         messages.warning(request, 'Sorry, Insufficient Funds in your wallet')
-        return redirect('checkout-here')
+        return redirect('history')
 
 
 def completed_payment(request):
@@ -142,3 +142,19 @@ def add_product(request):
 def product_list(request):
     products = Product.objects.all()
     return render(request, 'laundrySys/product_list.html', {'products': products})
+
+def mark_complete(request, id):
+    checkout = get_object_or_404(Checkout, id=id)
+    checkout.status = 'Completed'
+    checkout.save()
+    return redirect('order_history') 
+
+def mark_delivered(request, id):
+    checkout = get_object_or_404(Checkout, id=id)
+    checkout.status = 'Delivered'
+    checkout.save()
+    return redirect('order_history') 
+
+def order_history(request):
+    orders = Order.objects.all()
+    return render(request, 'order_history.html', {'orders': orders})

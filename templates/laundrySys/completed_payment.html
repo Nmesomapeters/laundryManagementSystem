@@ -14,34 +14,56 @@
                         <th scope="col">Email ID</th>
                         <th scope="col">Phone Number</th>
                         <th scope="col">Delivery Address</th>
-                        <th scope="col">Clothes Amount</th>
-                        <th scope="col">Laundry services</th>
+                        <th scope="col">Number of Shirts</th>
+                        <th scope="col">Number of Pants</th>
+                        <th scope="col">Number of Suits</th>
+                        <th scope="col">Number of Skirts</th>
+                        <th scope="col">Number of Dresses</th>
+                        <th scope="col">Number of Others</th>
+                        <th scope="col">Laundry Services</th>
                         <th scope="col">Total Amount</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for o in obj %}
                     <tr>
-                        <td>{{o.full_name}}</td>
-                        <td>{{o.email_id}}</td>
-                        <td>{{o.phone_number}}</td>
-                        <td>{{o.delivery_address}}</td>
-                        <td>{{o.cart.total_clothes}}</td>
+                        <td>{{ o.full_name }}</td>
+                        <td>{{ o.email_id }}</td>
+                        <td>{{ o.phone_number }}</td>
+                        <td>{{ o.delivery_address }}</td>
+                        <td>{{ o.cart.num_shirts }}</td>
+                        <td>{{ o.cart.num_pants }}</td>
+                        <td>{{ o.cart.num_suits }}</td>
+                        <td>{{ o.cart.num_skirts }}</td>
+                        <td>{{ o.cart.num_dresses }}</td>
+                        <td>{{ o.cart.num_others }}</td>
                         <td>
                             {% for m in o.cart.servicecart_set.all %}   
-                            {{ m.service }}
+                            {{ m.service.name }}<br>
                             {% endfor %}                   
                         </td>
-                        <td>{{o.cart.total_amount}} GHS</td>
-                        <td><span class="badge bg-warning">Pending</span></td>
+                        <td>{{ o.cart.total_amount }} GHS</td>
+                        <td>
+                            {% if o.status == 'Completed' %}
+                            <span class="badge bg-success">Completed</span>
+                            {% elif o.status == 'Delivered' %}
+                                <span class="badge bg-primary">Delivered</span>
+                            {% else %}
+                                <span class="badge bg-warning">Pending</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'mark_complete' o.id %}" class="btn btn-sm btn-success">Mark as Completed</a>
+                            <a href="{% url 'mark_delivered' o.id %}" class="btn btn-sm btn-primary">Mark as Delivered</a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-
-
         </div>
     </div>
 </div>
+
 {% endblock content %}
